@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Planner</title>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Quintessential&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <h3>Home Planner</h3>
+    </header>
+    <section id="form-container">
+      <form id="plan-form">
+        <div id="item-entry">
+          <label for="plan-item">Enter Item: </label>
+          <input type="text" name="plan-item" id="plan-item" required />
+        </div>
+        <div id="plan-info">
+          <label for="amount"
+            >Amount:
+            <input
+              id="amount"
+              name="amount"
+              type="number"
+              placeholder="$.$$"
+              required
+          /></label>
+          <label for="due-date"
+            >Due Date:
+            <input type="date" id="due-date" name="due-date" required
+          /></label>
+
+          <label for="repeat-payment"
+            >Repeat Payment:
+            <select name="repeat-payment" id="repeat-payment">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </label>
+          <div id="renewal-info" class="hidden">
+            <label for="renewal-duration"
+              >Renewal Duration:
+              <select name="renewal-duration" id="renewal-duration">
+                <option value="oneMonth">1 Month</option>
+                <option value="threeMonth">3 Months</option>
+                <option value="oneYear">1 Year</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="submit-button">
+          <input
+            type="submit"
+            id="submitButton"
+            class="button-style"
+            value="ADD ITEM"
+          />
+        </div>
+      </form>
+    </section>
+    <main id="list-container"></main>
+  </body>
+</html>

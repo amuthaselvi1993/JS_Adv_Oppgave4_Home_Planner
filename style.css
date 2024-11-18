@@ -1,0 +1,160 @@
+:root {
+  --main-font: "Quintessential", serif;
+  --secondary-font: "Amatic SC", sans-serif;
+  --font-size-title: 36px;
+  --font-size-form: 24px;
+  --font-size-container: 16px;
+  --font-color-primary: #2b36ae;
+  --font-color-secondary: #a3aafc;
+  --font-color-tertiary: #f9612a;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+html,
+body {
+  font-family: var(--main-font);
+  background-color: rgb(255, 234, 234);
+}
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-family: var(--secondary-font);
+  font-size: var(--font-size-title);
+  padding: 20px;
+  margin: 5px;
+  color: var(--font-color-primary);
+  border: 2px solid var(--font-color-secondary);
+  box-shadow: 0 0 5px var(--font-color-secondary),
+    0 0 10px var(--font-color-secondary);
+}
+#form-container {
+  box-shadow: 0 0 5px var(--font-color-secondary),
+    0 0 10px var(--font-color-secondary);
+}
+#plan-form {
+  padding-bottom: 20px;
+}
+input {
+  width: 40%;
+  max-width: 80%;
+  height: 40px;
+}
+#item-entry {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+#plan-item {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 15px;
+}
+#plan-item:focus {
+  outline: none;
+  border-color: var(--font-color-primary);
+}
+#plan-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px;
+  padding: 8px;
+}
+#plan-info > * {
+  padding: 8px;
+}
+#submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-style {
+  color: white;
+  border: none;
+  background-color: var(--font-color-primary);
+  font-weight: 600;
+  padding: 5px;
+}
+.button-style {
+  color: white;
+  border: none;
+  background-color: var(--font-color-secondary);
+  font-weight: 600;
+  padding: 5px;
+}
+.delete-button {
+  color: white;
+  border: none;
+  background-color: var(--font-color-tertiary);
+  font-weight: 600;
+  padding: 5px;
+}
+.hidden {
+  display: block;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+.hidden:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+  height: auto;
+}
+input,
+select,
+button,
+label {
+  display: flex;
+  font-family: inherit;
+  font-size: inherit;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-start;
+}
+#due-date {
+  width: 150px;
+}
+#list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 40px;
+}
+
+.title-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 2px solid var(--font-color-secondary);
+  padding-bottom: 20px;
+  gap: 40px;
+  width: 100%;
+}
+.task-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+}
+.items {
+  flex: 0 0 100px;
+}
+.item-description {
+  border: none;
+  width: 10%;
+  flex: 0 0 200px;
+  align-self: left;
+  background-color: inherit;
+}
