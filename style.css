@@ -2,8 +2,8 @@
   --main-font: "Quintessential", serif;
   --secondary-font: "Amatic SC", sans-serif;
   --font-size-title: 36px;
-  --font-size-form: 24px;
-  --font-size-container: 16px;
+  --font-size-form: 20px;
+  --font-size-container: 18px;
   --font-color-primary: #2b36ae;
   --font-color-secondary: #a3aafc;
   --font-color-tertiary: #f9612a;
@@ -17,14 +17,14 @@ html,
 body {
   font-family: var(--main-font);
   background-color: rgb(255, 234, 234);
+  letter-spacing: 0.5px;
 }
 header {
   display: flex;
-  flex-direction: column;
+
   align-items: center;
-  justify-content: space-around;
-  font-family: var(--secondary-font);
-  font-size: var(--font-size-title);
+  justify-content: center;
+  gap: 30px;
   padding: 20px;
   margin: 5px;
   color: var(--font-color-primary);
@@ -32,12 +32,21 @@ header {
   box-shadow: 0 0 5px var(--font-color-secondary),
     0 0 10px var(--font-color-secondary);
 }
+header img {
+  height: 120px;
+  width: 120px;
+}
+header h3 {
+  font-family: var(--secondary-font);
+  font-size: var(--font-size-title);
+}
 #form-container {
   box-shadow: 0 0 5px var(--font-color-secondary),
     0 0 10px var(--font-color-secondary);
 }
 #plan-form {
   padding-bottom: 20px;
+  font-size: var(--font-size-form);
 }
 input {
   width: 40%;
@@ -81,14 +90,14 @@ input {
   color: white;
   border: none;
   background-color: var(--font-color-primary);
-  font-weight: 600;
+  font-weight: 500;
   padding: 5px;
 }
-.button-style {
+.button-style-disabled {
   color: white;
   border: none;
   background-color: var(--font-color-secondary);
-  font-weight: 600;
+  font-weight: 500;
   padding: 5px;
 }
 .delete-button {
@@ -98,63 +107,68 @@ input {
   font-weight: 600;
   padding: 5px;
 }
-.hidden {
+.warning-text {
+  color: var(--font-color-tertiary);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+}
+/* .hidden {
   display: block;
   opacity: 0;
   transition: opacity 0.5s ease;
-  visibility: hidden;
   height: 0;
   overflow: hidden;
-}
-.hidden:not(.hidden) {
+} */
+/* .hidden:not(.hidden) {
   opacity: 1;
   visibility: visible;
   height: auto;
-}
+} */
 input,
 select,
 button,
 label {
-  display: flex;
+  /* display: flex; */
   font-family: inherit;
   font-size: inherit;
   gap: 5px;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  padding: 0px 10px;
 }
 #due-date {
-  width: 150px;
+  width: 170px;
 }
 #list-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  font-size: var(--font-size-container);
   margin: 20px 40px;
 }
 
 .title-container {
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
+  justify-content: center;
   align-items: center;
   border-bottom: 2px solid var(--font-color-secondary);
   padding-bottom: 20px;
-  gap: 40px;
+  gap: 10px;
   width: 100%;
 }
 .task-container {
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
+  justify-content: center;
   align-items: center;
-  gap: 60px;
+  gap: 10px;
   width: 100%;
-}
-.items {
-  flex: 0 0 100px;
 }
 .item-description {
   border: none;
-  width: 10%;
-  flex: 0 0 200px;
-  align-self: left;
   background-color: inherit;
+  width: auto;
 }

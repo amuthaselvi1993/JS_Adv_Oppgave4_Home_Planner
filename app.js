@@ -1,13 +1,15 @@
 const repeatPayment = document.getElementById("repeat-payment");
 repeatPayment.value = "no";
-const renewalDuration = document.getElementById("renewal-info");
+
+const renewalDuration = document.getElementById("renewal-duration");
+renewalDuration.disabled = true;
+console.log(renewalDuration);
 repeatPayment.addEventListener("change", function () {
   if (this.value === "yes") {
-    renewalDuration.classList.remove("hidden");
-    renewalDuration.setAttribute("required", true);
+    renewalDuration.disabled = false;
   } else {
-    renewalDuration.classList.add("hidden");
-    renewalDuration.removeAttribute("required");
+    // renewalDuration.classList.add("hidden");
+    renewalDuration.disabled = true;
   }
 });
 
@@ -18,13 +20,11 @@ const listContainer = document.querySelector("#list-container");
 let tasks = [];
 
 // Load data from localStorage
-// showCompleted.checked = localStorage.getItem("showCompleted") === "true";
-// sortBy.value = localStorage.getItem("sortBy");
-// const storedTasks = localStorage.getItem("tasks");
-// if (storedTasks) {
-//   tasks = JSON.parse(storedTasks);
-//   renderList(tasks);
-// }
+const storedTasks = localStorage.getItem("tasks");
+if (storedTasks) {
+  tasks = JSON.parse(storedTasks);
+  renderList(tasks);
+}
 
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -49,24 +49,11 @@ taskForm.addEventListener("submit", (e) => {
   });
   console.log(tasks);
   renderList(tasks);
+  // taskForm.reset();
+  // repeatPayment.value = "no";
+  // const event = new Event("change");
+  // repeatPayment.dispatchEvent(event);
 });
-
-function showError(message) {
-  const modal = document.createElement("dialog");
-
-  const errorMsg = document.createElement("p");
-  errorMsg.textContent = message;
-  const closeModal = document.createElement("button");
-  closeModal.textContent = "Got it";
-  modal.append(errorMsg, closeModal);
-  document.body.append(modal);
-
-  modal.showModal();
-  window.addEventListener("click", () => {
-    modal.close();
-    window.removeEventListener("click", arguments.callee);
-  });
-}
 
 // sortBy.addEventListener("change", () => {
 //   renderList(tasks);
@@ -82,27 +69,9 @@ function renderList(taskArr) {
   saveStateToLocalStorage();
 }
 
-// function filterAndSort(arr) {
-//   return arr
-//     .filter((e) => (!showCompleted.checked ? !e.completed : e))
-//     .sort((a, b) => {
-//       if (sortBy.value === "time-asc") {
-//         return new Date(a.timeStamp) - new Date(b.timeStamp);
-//       } else if (sortBy.value === "time-desc") {
-//         return new Date(b.timeStamp) - new Date(a.timeStamp);
-//       } else if (sortBy.value === "alpha-asc") {
-//         return b.description.localeCompare(a.description);
-//       } else if (sortBy.value === "alpha-desc") {
-//         return a.description.localeCompare(b.description);
-//       }
-//     });
-// }
-
 function buildList(taskArr) {
   // Empty list
-  while (listContainer.firstChild) {
-    listContainer.firstChild.remove();
-  }
+  clearListContainer();
   if (taskArr) {
     const titleContainer = document.createElement("div");
     titleContainer.classList.add("title-container");
@@ -152,9 +121,29 @@ function buildList(taskArr) {
     amountElem.textContent = task.amount + "$";
     console.log(amountElem);
     //Due date
-    const selectedDate = dateInput.value;
     const dueDateElem = document.createElement("p");
     dueDateElem.textContent = task.dueDateFormatted;
+    const currentDate = new Date();
+    const actualDue = new Date(task.dueDateSelected);
+
+    const differenceInDays = (actualDue - currentDate) / (1000 * 60 * 60 * 24);
+    console.log(differenceInDays);
+    if (differenceInDays < 8) {
+      dueDateElem.textContent = "";
+      const dueDateText = document.createTextNode(task.dueDateFormatted);
+      const lineBreak = document.createElement("br");
+      const daysLeftText = document.createTextNode(
+        `Only ${parseInt(differenceInDays)} day(s) left`
+      );
+      const span = document.createElement("span");
+      span.classList.add("warning-text"); // Add a class to the <span>
+      span.appendChild(daysLeftText);
+
+      dueDateElem.append(dueDateText, lineBreak, span);
+    } else {
+      dueDateElem.textContent = task.dueDateFormatted;
+    }
+
     const renewalDate = document.createElement("p");
     renewalDate.classList.add("items");
     const renewButton = document.createElement("button");
@@ -164,10 +153,12 @@ function buildList(taskArr) {
     if (task.repeatPayment === "yes") {
       console.log("control coming here");
       renewalDate.textContent = task.renewalWindow;
+      renewButton.classList.remove("button-style-disabled");
       renewButton.classList.add("button-style");
       renewButton.disabled = false;
     } else {
       renewalDate.textContent = "NA";
+      renewButton.classList.remove("button-style");
       renewButton.classList.add("button-style-disabled");
       renewButton.disabled = true;
     }
@@ -195,6 +186,14 @@ function buildList(taskArr) {
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.classList.add("delete-button");
+    deleteButton.addEventListener("click", () => {
+      if (confirm("Are you sure you want to delete this item?")) {
+        taskArr.splice(i, 1);
+        clearListContainer();
+        buildList(taskArr);
+        saveStateToLocalStorage();
+      }
+    });
     // Appends
     taskContainer.append(
       descriptionElem,
@@ -209,12 +208,7 @@ function buildList(taskArr) {
 }
 
 function saveStateToLocalStorage() {
-  // Serialize tasks array to JSON before storing to local storage
   localStorage.setItem("tasks", JSON.stringify(tasks));
-  // Store boolean value of showCompleted checkbox
-  // localStorage.setItem("showCompleted", showCompleted.checked);
-  // Store the value of the sort by select element
-  // localStorage.setItem("sortBy", sortBy.value);
 }
 
 // Get today's date to set as min date for date picker to avoid selecting past days for due date
@@ -238,3 +232,33 @@ function formatDateToDDMMYYYY(date) {
 
   return `${day}-${month}-${year}`; // Combine into dd-mm-yyyy
 }
+
+function clearListContainer() {
+  while (listContainer.firstChild) {
+    listContainer.firstChild.remove();
+  }
+}
+// function filterAndSort(arr) {
+//   return arr
+//     .filter((e) => (!showCompleted.checked ? !e.completed : e))
+//     .sort((a, b) => {
+//       if (sortBy.value === "time-asc") {
+//         return new Date(a.timeStamp) - new Date(b.timeStamp);
+//       } else if (sortBy.value === "time-desc") {
+//         return new Date(b.timeStamp) - new Date(a.timeStamp);
+//       } else if (sortBy.value === "alpha-asc") {
+//         return b.description.localeCompare(a.description);
+//       } else if (sortBy.value === "alpha-desc") {
+//         return a.description.localeCompare(b.description);
+//       }
+//     });
+// }
+
+// Load data from localStorage
+// showCompleted.checked = localStorage.getItem("showCompleted") === "true";
+// sortBy.value = localStorage.getItem("sortBy");
+
+// Store boolean value of showCompleted checkbox
+// localStorage.setItem("showCompleted", showCompleted.checked);
+// Store the value of the sort by select element
+// localStorage.setItem("sortBy", sortBy.value);
