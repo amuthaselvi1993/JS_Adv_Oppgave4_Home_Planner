@@ -16,7 +16,7 @@
 html,
 body {
   font-family: var(--main-font);
-  background-color: rgb(255, 234, 234);
+  background-color: rgb(228, 246, 207);
   letter-spacing: 0.5px;
 }
 header {
@@ -28,7 +28,8 @@ header {
   padding: 20px;
   margin: 5px;
   color: var(--font-color-primary);
-  border: 2px solid var(--font-color-secondary);
+  border-top: 2px solid var(--font-color-primary);
+  /* border-bottom: 2px solid var(--font-color-primary); */
   box-shadow: 0 0 5px var(--font-color-secondary),
     0 0 10px var(--font-color-secondary);
 }
@@ -41,8 +42,8 @@ header h3 {
   font-size: var(--font-size-title);
 }
 #form-container {
-  box-shadow: 0 0 5px var(--font-color-secondary),
-    0 0 10px var(--font-color-secondary);
+  box-shadow: 0 0 5px var(--font-color-primary),
+    0 0 10px var(--font-color-primary);
 }
 #plan-form {
   padding-bottom: 20px;
@@ -126,6 +127,7 @@ label {
   justify-content: center;
   padding: 0px 10px;
   border-radius: 5px;
+  width: auto;
 }
 #due-date {
   width: 170px;
@@ -144,13 +146,14 @@ label {
   grid-template-columns: 10% 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
   justify-content: center;
   align-items: center;
-  border-bottom: 2px solid var(--font-color-secondary);
-  padding-bottom: 20px;
+  border-bottom: 2px solid var(--font-color-primary);
+  padding-bottom: 10px;
   gap: 10px;
   width: 100%;
 }
 .task-container {
   display: grid;
+  padding-top: 5px;
   grid-template-columns: 10% 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
   justify-content: center;
   align-items: center;

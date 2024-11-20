@@ -142,9 +142,12 @@ function buildList(taskArr) {
       dueDateElem.textContent = "";
       const dueDateText = document.createTextNode(task.dueDateFormatted);
       const lineBreak = document.createElement("br");
-      const daysLeftText = document.createTextNode(
+      let daysLeftText = document.createTextNode(
         `Only ${parseInt(differenceInDays)} day(s) left`
       );
+      if (differenceInDays <= 0) {
+        daysLeftText = document.createTextNode(`Past Due!!!!`);
+      }
       const span = document.createElement("span");
       span.classList.add("warning-text"); // Add a class to the <span>
       span.appendChild(daysLeftText);
@@ -231,6 +234,7 @@ const currentDate = `${yyyy}-${mm}-${dd}`;
 const dateInput = document.getElementById("due-date");
 dateInput.min = currentDate;
 
+//To format date to a more pleasing way
 function formatDateToDDMMYYYY(date) {
   const d = new Date(date); // Convert input to Date object
   const day = String(d.getDate()).padStart(2, "0"); // Ensure 2-digit day
@@ -240,32 +244,9 @@ function formatDateToDDMMYYYY(date) {
   return `${day}-${month}-${year}`; // Combine into dd-mm-yyyy
 }
 
+//dedicated method to clear the list before rendering list
 function clearListContainer() {
   while (listContainer.firstChild) {
     listContainer.firstChild.remove();
   }
 }
-// function filterAndSort(arr) {
-//   return arr
-//     .filter((e) => (!showCompleted.checked ? !e.completed : e))
-//     .sort((a, b) => {
-//       if (sortBy.value === "time-asc") {
-//         return new Date(a.timeStamp) - new Date(b.timeStamp);
-//       } else if (sortBy.value === "time-desc") {
-//         return new Date(b.timeStamp) - new Date(a.timeStamp);
-//       } else if (sortBy.value === "alpha-asc") {
-//         return b.description.localeCompare(a.description);
-//       } else if (sortBy.value === "alpha-desc") {
-//         return a.description.localeCompare(b.description);
-//       }
-//     });
-// }
-
-// Load data from localStorage
-// showCompleted.checked = localStorage.getItem("showCompleted") === "true";
-// sortBy.value = localStorage.getItem("sortBy");
-
-// Store boolean value of showCompleted checkbox
-// localStorage.setItem("showCompleted", showCompleted.checked);
-// Store the value of the sort by select element
-// localStorage.setItem("sortBy", sortBy.value);
