@@ -42,10 +42,10 @@ taskForm.addEventListener("submit", (e) => {
     pinned: false,
   });
   renderList(tasks);
-  // taskForm.reset();
-  // repeatPayment.value = "no";
-  // const event = new Event("change");
-  // repeatPayment.dispatchEvent(event);
+  taskForm.reset();
+  repeatPayment.value = "no";
+  const event = new Event("change");
+  repeatPayment.dispatchEvent(event);
 });
 
 function renderList(taskArr) {
