@@ -1,6 +1,8 @@
+//setting default value for repeat payment as No
 const repeatPayment = document.getElementById("repeat-payment");
 repeatPayment.value = "no";
 
+//getting renewal-duration dropdown to enable or disable it based on repeat payment selection
 const renewalDuration = document.getElementById("renewal-duration");
 renewalDuration.disabled = true;
 repeatPayment.addEventListener("change", function () {
@@ -12,7 +14,6 @@ repeatPayment.addEventListener("change", function () {
 });
 
 const taskForm = document.querySelector("#plan-form");
-const taskInput = document.querySelector("#plan-item");
 const listContainer = document.querySelector("#list-container");
 
 let tasks = [];
@@ -24,13 +25,13 @@ if (storedTasks) {
   renderList(tasks);
 }
 
+//adding new item to the last on submit action
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(taskForm);
   const selectedElement = document.getElementById("renewal-duration");
   const selectedText =
     selectedElement.options[selectedElement.selectedIndex].text;
-  //lager nytt task object og pusher til tasks variabel.
   tasks.push({
     dueDateSelected: formData.get("due-date"),
     dueDateFormatted: formatDateToDDMMYYYY(formData.get("due-date")),
@@ -53,7 +54,6 @@ function renderList(taskArr) {
   if (taskArr.length === 0) {
     localStorage.removeItem("tasks");
   }
-  // buildList(filterAndSort(taskArr));
   buildList(taskArr);
   saveStateToLocalStorage();
 }
@@ -62,8 +62,10 @@ function buildList(taskArr) {
   // Empty list
   clearListContainer();
   if (taskArr) {
+    //make a container for the titles
     const titleContainer = document.createElement("div");
     titleContainer.classList.add("title-container");
+    //title for pin item
     const pinTitle = document.createElement("p");
     pinTitle.textContent = "PIN ITEM";
     // Make the task description
@@ -96,6 +98,7 @@ function buildList(taskArr) {
     );
     listContainer.append(titleContainer);
   }
+  //loop over the task array to display the items
   taskArr.forEach((task, i) => {
     // Make the task container
     const taskContainer = document.createElement("div");
