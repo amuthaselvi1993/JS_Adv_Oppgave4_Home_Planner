@@ -3,12 +3,10 @@ repeatPayment.value = "no";
 
 const renewalDuration = document.getElementById("renewal-duration");
 renewalDuration.disabled = true;
-console.log(renewalDuration);
 repeatPayment.addEventListener("change", function () {
   if (this.value === "yes") {
     renewalDuration.disabled = false;
   } else {
-    // renewalDuration.classList.add("hidden");
     renewalDuration.disabled = true;
   }
 });
@@ -29,11 +27,6 @@ if (storedTasks) {
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(taskForm);
-  // Trigger error if task is empty
-  // if (!formData.get("plan-item")) {
-  //   showError("You can't submit an empty task");
-  //   return;
-  // }
   const selectedElement = document.getElementById("renewal-duration");
   const selectedText =
     selectedElement.options[selectedElement.selectedIndex].text;
@@ -46,18 +39,14 @@ taskForm.addEventListener("submit", (e) => {
     renewTime: formData.get("renewal-duration"),
     renewalWindow: selectedText,
     amount: formData.get("amount"),
+    pinned: false,
   });
-  console.log(tasks);
   renderList(tasks);
   // taskForm.reset();
   // repeatPayment.value = "no";
   // const event = new Event("change");
   // repeatPayment.dispatchEvent(event);
 });
-
-// sortBy.addEventListener("change", () => {
-//   renderList(tasks);
-// });
 
 function renderList(taskArr) {
   // Clear local storage if task array is empty
@@ -75,7 +64,8 @@ function buildList(taskArr) {
   if (taskArr) {
     const titleContainer = document.createElement("div");
     titleContainer.classList.add("title-container");
-
+    const pinTitle = document.createElement("p");
+    pinTitle.textContent = "PIN ITEM";
     // Make the task description
     const descriptionTitle = document.createElement("p");
     descriptionTitle.classList.add("item-description");
@@ -96,6 +86,7 @@ function buildList(taskArr) {
     deleteButtonTitle.textContent = "DELETE HERE";
     // Appends
     titleContainer.append(
+      pinTitle,
       descriptionTitle,
       amountTitle,
       dueDateTitle,
@@ -109,8 +100,29 @@ function buildList(taskArr) {
     // Make the task container
     const taskContainer = document.createElement("div");
     taskContainer.classList.add("task-container");
-    // Make the timestamp
-
+    // Make the pinitem
+    const pinIcon = document.createElement("img");
+    pinIcon.alt = "Pin icon image";
+    if (task.pinned) {
+      pinIcon.src = `images/pinned.png`;
+    } else {
+      pinIcon.src = `images/unpinned.png`;
+    }
+    pinIcon.addEventListener("click", () => {
+      task.pinned = !task.pinned;
+      taskArr.splice(i, 1);
+      console.log(i);
+      if (task.pinned) {
+        pinIcon.src = `images/pinned.png`;
+        taskArr.unshift(task);
+      } else {
+        pinIcon.src = `images/unpinned.png`;
+        taskArr.push(task);
+      }
+      clearListContainer();
+      buildList(taskArr);
+      saveStateToLocalStorage();
+    });
     // Make the task description
     const descriptionElem = document.createElement("input");
     descriptionElem.value = task.description;
@@ -119,15 +131,13 @@ function buildList(taskArr) {
     // Make the amount description
     const amountElem = document.createElement("p");
     amountElem.textContent = task.amount + "$";
-    console.log(amountElem);
+
     //Due date
     const dueDateElem = document.createElement("p");
     dueDateElem.textContent = task.dueDateFormatted;
     const currentDate = new Date();
     const actualDue = new Date(task.dueDateSelected);
-
     const differenceInDays = (actualDue - currentDate) / (1000 * 60 * 60 * 24);
-    console.log(differenceInDays);
     if (differenceInDays < 8) {
       dueDateElem.textContent = "";
       const dueDateText = document.createTextNode(task.dueDateFormatted);
@@ -148,10 +158,9 @@ function buildList(taskArr) {
     renewalDate.classList.add("items");
     const renewButton = document.createElement("button");
     renewButton.classList.add("button-style");
-    console.log(task.repeatPayment);
+
     renewButton.textContent = "Renew Payment";
     if (task.repeatPayment === "yes") {
-      console.log("control coming here");
       renewalDate.textContent = task.renewalWindow;
       renewButton.classList.remove("button-style-disabled");
       renewButton.classList.add("button-style");
@@ -162,11 +171,8 @@ function buildList(taskArr) {
       renewButton.classList.add("button-style-disabled");
       renewButton.disabled = true;
     }
-    console.log(renewButton.disabled);
-    // Make the timestamp
 
     renewButton.addEventListener("click", () => {
-      console.log("control coming inside click action");
       const calculateNewDate = new Date(task.dueDateSelected); // create current date object to find the updated due date
       if (task.renewTime === "oneMonth") {
         calculateNewDate.setDate(calculateNewDate.getDate() + 30);
@@ -178,7 +184,7 @@ function buildList(taskArr) {
       // Add the specified number of days
       task.dueDateSelected = calculateNewDate;
       task.dueDateFormatted = formatDateToDDMMYYYY(task.dueDateSelected);
-      console.log("new due date" + task.dueDateFormatted);
+
       dueDateElem.textContent = task.dueDateFormatted;
       saveStateToLocalStorage();
     });
@@ -196,6 +202,7 @@ function buildList(taskArr) {
     });
     // Appends
     taskContainer.append(
+      pinIcon,
       descriptionElem,
       amountElem,
       dueDateElem,

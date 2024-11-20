@@ -113,18 +113,7 @@ input {
   font-size: 12px;
   font-weight: 600;
 }
-/* .hidden {
-  display: block;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  height: 0;
-  overflow: hidden;
-} */
-/* .hidden:not(.hidden) {
-  opacity: 1;
-  visibility: visible;
-  height: auto;
-} */
+
 input,
 select,
 button,
@@ -136,6 +125,7 @@ label {
   align-items: center;
   justify-content: center;
   padding: 0px 10px;
+  border-radius: 5px;
 }
 #due-date {
   width: 170px;
@@ -151,7 +141,7 @@ label {
 
 .title-container {
   display: grid;
-  grid-template-columns: 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
+  grid-template-columns: 10% 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
   justify-content: center;
   align-items: center;
   border-bottom: 2px solid var(--font-color-secondary);
@@ -161,7 +151,7 @@ label {
 }
 .task-container {
   display: grid;
-  grid-template-columns: 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
+  grid-template-columns: 10% 30% 10% 10% 10% 10% 10%; /*5% 10%;*/
   justify-content: center;
   align-items: center;
   gap: 10px;
